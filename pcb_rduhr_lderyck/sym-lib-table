@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "aase")(type "KiCad")(uri "${KIPRJMOD}/aase.kicad_sym")(options "")(descr ""))
+)
