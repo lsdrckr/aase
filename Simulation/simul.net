@@ -1,0 +1,36 @@
+* C:\Users\profil\Desktop\AASE_rduhr_lderycke\simul.asc
+A1 N001 0 clk pre 0 0 N005 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+A12 0 N002 0 SBPA 0 0 N001 0 XOR ref=0 Vhigh=1 Vlow=-1
+V1 clk 0 PULSE(1 -1 0 0 0 500n 1u)
+V2 pre 0 PULSE(-1 1 500n 0 0 1u 0 1)
+A2 N005 0 clk 0 0 0 N006 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+A3 N006 0 clk 0 0 0 N007 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+A4 N007 0 clk 0 0 0 N008 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+A5 N008 0 clk 0 0 0 N009 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+A6 N009 0 clk 0 0 0 N010 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+A7 N010 0 clk 0 0 0 N011 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+A8 N011 0 clk 0 0 0 N012 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+A9 N012 0 clk 0 0 0 N002 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+A10 N002 0 clk 0 0 0 N013 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+A11 N013 0 clk 0 0 0 SBPA 0 DFLOP Ref=0 Vhigh=1 Vlow=-1 td=10n
+V3 carrier 0 SINE(0 1 70000000 0 0 0 0)
+B1 BPSK 0 V=V(carrier)*V(SBPA)
+XU1 N003 N004 2ndOrderLowpass f0=14Meg Q=0.3 H=1
+XU2 Q_arm Q_filter 2ndOrderLowpass f0=14Meg Q=0.3 H=1
+XU3 I_arm I_filter 2ndOrderLowpass f0=14Meg Q=0.3 H=1
+B3 Q_arm 0 V=V(VCO)*V(BPSK_noise)
+B4 I_arm 0 V=V(VCO_90)*V(BPSK_noise)
+A15 N004 0 0 0 0 VCO_90 VCO 0 MODULATOR space=70Meg mark=90Meg
+B2 N003 0 V=V(Q_filter)*V(I_filter)
+XU4 SBPA SBPA_ny 2ndOrderLowpass f0=14Meg Q=0.1 H=1
+B5 noise 0 V=white(2e9*time)
+B6 BPSK_noise 0 V=V(BPSK)+V(noise)
+.tran 0.0005
+* PLL
+* Arms filter
+* Random signal generator
+* Noise
+* Nyquist filter
+.lib 2ndOrderLowpass.sub
+.backanno
+.end
